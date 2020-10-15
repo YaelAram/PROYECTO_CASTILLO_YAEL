@@ -231,6 +231,8 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
             toTextField.setText("");
             toUnitTextField.setText("");
             alertDialogStyle(alertDialog, "");
+            textFieldStyle(fromUnitTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+            textFieldStyle(toUnitTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         }
         else if(evt.getSource() == convertButton){
             alertDialogStyle(alertDialog, "Calculating...");
@@ -239,9 +241,11 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
             JButton jButton = (JButton)evt.getSource();
             if(fromUnitTextField.getText().isEmpty() || fromUnitTextField.getText().isBlank()){
                 fromUnitTextField.setText(jButton.getName());
+                textFieldStyle(fromUnitTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
             }
             else if(toUnitTextField.getText().isEmpty() || toUnitTextField.getText().isBlank()){
                 toUnitTextField.setText(jButton.getName());
+                textFieldStyle(toUnitTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
             }
             else{
                 alertDialogStyle(alertDialog, "Clear the fields of units.");

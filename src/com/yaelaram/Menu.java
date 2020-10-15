@@ -78,6 +78,7 @@ public class Menu implements MouseListener, ActionListener {
             }
             else if(evt.getSource() == convertNumberScreen){
                 System.out.println("Opening convert number screen...");
+                new SystemConverter();
             }
             else if(evt.getSource() == karnaughMapScreen){
                 System.out.println("Opening karnaugh map screen...");
