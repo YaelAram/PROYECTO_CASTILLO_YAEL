@@ -84,7 +84,7 @@ public class LogIn implements FocusListener, MouseListener, ActionListener {
         }
         else{
             jTextField.setForeground(colorStyle.getWhite());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, colorStyle.getWhite()));
+            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, colorStyle.getOrange()));
         }
     }
 
@@ -97,7 +97,7 @@ public class LogIn implements FocusListener, MouseListener, ActionListener {
         }
         else{
             jPasswordField.setForeground(colorStyle.getWhite());
-            jPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, colorStyle.getWhite()));
+            jPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, colorStyle.getOrange()));
         }
     }
 
@@ -205,7 +205,8 @@ public class LogIn implements FocusListener, MouseListener, ActionListener {
                 if(!userPasswordString.isBlank() && !userPasswordString.isEmpty()){
                     if(userNameString.equals("Manager")){
                         if(userPasswordString.equals("manager")){
-                            alertDialogStyle(alertDialog, "Access Granted");
+                            f.dispose();
+                            new Menu();
                         }
                         else{
                             alertDialogStyle(alertDialog, "Password is wrong.");
