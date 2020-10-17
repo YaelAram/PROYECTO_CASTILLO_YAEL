@@ -15,7 +15,7 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
         f = new JFrame();
         f.setBounds(180, 10, 750, 280);
         f.setLayout(null);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.setTitle("System Converter");
         f.setLocationRelativeTo(null);
         f.getContentPane().setBackground(colorStyle.getGreyDarkCool());

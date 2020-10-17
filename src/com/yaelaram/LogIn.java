@@ -49,6 +49,7 @@ public class LogIn implements FocusListener, MouseListener, ActionListener {
         userPasswordField = new JPasswordField();
         userPasswordField.setBounds(35, 190, 250, 30);
         userPasswordField.addFocusListener(this);
+        userPasswordField.addActionListener(this);
         passwordFieldStyle(userPasswordField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         f.add(userPasswordField);
 

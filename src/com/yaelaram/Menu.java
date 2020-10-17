@@ -82,6 +82,7 @@ public class Menu implements MouseListener, ActionListener {
             }
             else if(evt.getSource() == karnaughMapScreen){
                 System.out.println("Opening karnaugh map screen...");
+                new KarnaughMap();
             }
         }
         catch (Exception e){

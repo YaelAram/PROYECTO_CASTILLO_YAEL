@@ -15,7 +15,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
         f = new JFrame();
         f.setBounds(180, 10, 700, 280);
         f.setLayout(null);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.setTitle("Unit Converter");
         f.setLocationRelativeTo(null);
         f.getContentPane().setBackground(colorStyle.getGreyDarkCool());
