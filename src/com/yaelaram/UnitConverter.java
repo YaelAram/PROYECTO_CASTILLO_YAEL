@@ -11,6 +11,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     private JLabel alertDialog;
     private JComboBox<String> fromUnit, toUnit;
     private final ColorStyle colorStyle = new ColorStyle();
+    private final int[] constantValues = {0, 0, 0, 3, 6, 9, 12, 15, 18, 21, 24};
 
     public UnitConverter(){
         f = new JFrame();
@@ -151,7 +152,67 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
             toUnit.setSelectedIndex(0);
         }
         else if(evt.getSource() == convertButton){
-            alertDialogStyle(alertDialog, "Calculating " + fromUnit.getSelectedItem() + " to " + toUnit.getSelectedItem() + "...");
+            if(!fromTextField.getText().isEmpty() || !fromTextField.getText().isBlank()){
+                try{
+                    double fromValue = Double.parseDouble(fromTextField.getText());
+                    String stringFrom = String.valueOf(fromUnit.getSelectedItem());
+                    String stringTo = String.valueOf(toUnit.getSelectedItem());
+                    if(fromValue == 0.0){
+                        toTextField.setText("0");
+                    }
+                    else if(stringFrom.equals(stringTo)){
+                        toTextField.setText(fromTextField.getText());
+                    }
+                    else{
+                        if(stringFrom.equals("Bit") && stringTo.equals("Nibble")){
+                            toTextField.setText(String.valueOf(fromValue / 4.0));
+                        }
+                        else if(stringFrom.equals("Bit") && stringTo.equals("Byte")){
+                            toTextField.setText(String.valueOf(fromValue / 8.0));
+                        }
+                        else if(stringFrom.equals("Nibble") && stringTo.equals("Bit")){
+                            toTextField.setText(String.valueOf(fromValue * 4.0));
+                        }
+                        else if(stringFrom.equals("Nibble") && stringTo.equals("Byte")){
+                            toTextField.setText(String.valueOf(fromValue / 2.0));
+                        }
+                        else if(stringFrom.equals("Byte") && stringTo.equals("Bit")){
+                            toTextField.setText(String.valueOf(fromValue * 8.0));
+                        }
+                        else if(stringFrom.equals("Byte") && stringTo.equals("Nibble")){
+                            toTextField.setText(String.valueOf(fromValue * 2.0));
+                        }
+                        else{
+                            if(stringFrom.equals("Bit")){
+                                fromValue /= 8.0;
+                            }
+                            else if(stringFrom.equals("Nibble")){
+                                fromValue /= 2.0;
+                            }
+                            int superIndexFrom = constantValues[fromUnit.getSelectedIndex()];
+                            int superIndexTo = constantValues[toUnit.getSelectedIndex()];
+                            int superIndex = superIndexFrom - superIndexTo;
+                            if(stringTo.equals("Bit")){
+                                toTextField.setText(String.valueOf(fromValue * Math.pow(10, superIndex) * 8));
+                            }
+                            else if(stringTo.equals("Nibble")){
+                                toTextField.setText(String.valueOf(fromValue * Math.pow(10, superIndex) * 2));
+                            }
+                            else{
+                                toTextField.setText(String.valueOf(fromValue * Math.pow(10, superIndex)));
+                            }
+                        }
+                    }
+                }
+                catch (NumberFormatException error){
+                    alertDialogStyle(alertDialog, "Please introduce a number.");
+                    fromTextField.setText("");
+                    System.out.println("Unit Converter class converter button: " + error.getMessage());
+                }
+            }
+            else{
+                alertDialogStyle(alertDialog, "Please enter a value at " + fromUnit.getSelectedItem() + " field.");
+            }
         }
     }
 
