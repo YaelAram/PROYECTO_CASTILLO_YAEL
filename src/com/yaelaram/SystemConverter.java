@@ -6,14 +6,16 @@ import java.awt.event.*;
 public class SystemConverter implements MouseListener, FocusListener, ActionListener {
 
     private final JFrame f;
-    private JTextField fromTextField, toTextField, fromUnitTextField, toUnitTextField;
+    private JTextField fromTextField, toTextField;
     private JButton convertButton, cleanButton;
+    private JComboBox<String> fromUnit, toUnit;
     private JLabel alertDialog;
     private final ColorStyle colorStyle = new ColorStyle();
+    private final int[] constantBase = {10, 2, 4, 8, 16};
 
     public SystemConverter(){
         f = new JFrame();
-        f.setBounds(180, 10, 750, 280);
+        f.setBounds(180, 10, 765, 260);
         f.setLayout(null);
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.setTitle("System Converter");
@@ -29,104 +31,60 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
         labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
         f.add(title);
 
-        JLabel fromLabel = new JLabel("From:");
-        fromLabel.setBounds(20, 95, 40, 30);
-        labelStyle(fromLabel, ColorStyle.SECONDARY_LABEL_FLAG);
-        f.add(fromLabel);
+        String[] units = {"Decimal", "Binary", "Quaternary", "Octal", "Hexadecimal"};
 
-        fromUnitTextField = new JTextField();
-        fromUnitTextField.setBounds(70, 55, 130, 30);
-        fromUnitTextField.setEditable(false);
-        fromUnitTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        textFieldStyle(fromUnitTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
-        f.add(fromUnitTextField);
+        fromUnit = new JComboBox<>(units);
+        fromUnit.setBounds(50, 65, 130, 30);
+        comboBoxStyle(fromUnit);
+        f.add(fromUnit);
 
-        JLabel toLabel = new JLabel("To:");
-        toLabel.setBounds(220, 95, 40, 30);
-        labelStyle(toLabel, ColorStyle.SECONDARY_LABEL_FLAG);
-        f.add(toLabel);
-
-        toUnitTextField = new JTextField();
-        toUnitTextField.setBounds(250, 55, 130, 30);
-        toUnitTextField.setEditable(false);
-        toUnitTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        textFieldStyle(toUnitTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
-        f.add(toUnitTextField);
-
-        fromTextField = new JTextField();
-        fromTextField.setBounds(70, 90, 130, 30);
-        fromTextField.addFocusListener(this);
-        fromTextField.addActionListener(this);
-        fromTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        textFieldStyle(fromTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
-        f.add(fromTextField);
-
-        toTextField = new JTextField();
-        toTextField.setBounds(250, 90, 130, 30);
-        toTextField.addFocusListener(this);
-        toTextField.addActionListener(this);
-        toTextField.setHorizontalAlignment(SwingConstants.CENTER);
-        textFieldStyle(toTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
-        f.add(toTextField);
+        toUnit = new JComboBox<>(units);
+        toUnit.setBounds(230, 65, 130, 30);
+        comboBoxStyle(toUnit);
+        f.add(toUnit);
 
         convertButton = new JButton("Convert");
-        convertButton.setBounds(425, 50, 220, 35);
+        convertButton.setBounds(380, 60, 150, 35);
         convertButton.addMouseListener(this);
         convertButton.addActionListener(this);
         buttonStyle(convertButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(convertButton);
 
         cleanButton = new JButton("Clean");
-        cleanButton.setBounds(425, 95, 220, 35);
+        cleanButton.setBounds(550, 60, 150, 35);
         cleanButton.addActionListener(this);
         cleanButton.addMouseListener(this);
         buttonStyle(cleanButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(cleanButton);
 
+        JLabel fromLabel = new JLabel("From:");
+        fromLabel.setBounds(20, 105, 40, 30);
+        labelStyle(fromLabel, ColorStyle.SECONDARY_LABEL_FLAG);
+        f.add(fromLabel);
+
+        JLabel toLabel = new JLabel("To:");
+        toLabel.setBounds(390, 105, 40, 30);
+        labelStyle(toLabel, ColorStyle.SECONDARY_LABEL_FLAG);
+        f.add(toLabel);
+
+        fromTextField = new JTextField();
+        fromTextField.setBounds(20, 130, 330, 30);
+        fromTextField.addFocusListener(this);
+        fromTextField.addActionListener(this);
+        textFieldStyle(fromTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+        f.add(fromTextField);
+
+        toTextField = new JTextField();
+        toTextField.setBounds(390, 130, 330, 30);
+        toTextField.addFocusListener(this);
+        toTextField.addActionListener(this);
+        textFieldStyle(toTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+        f.add(toTextField);
+
         alertDialog = new JLabel();
-        alertDialog.setBounds(20, 190, 600, 30);
+        alertDialog.setBounds(20, 175, 600, 30);
         alertDialogStyle(alertDialog, "");
         f.add(alertDialog);
-
-        JButton decimalButton = new JButton("Decimal");
-        decimalButton.setBounds(20, 140, 130, 35);
-        decimalButton.addMouseListener(this);
-        decimalButton.addActionListener(this);
-        decimalButton.setName("DECIMAL");
-        buttonStyle(decimalButton, ColorStyle.INACTIVE_BUTTON_FLAG);
-        f.add(decimalButton);
-
-        JButton binaryButton = new JButton("Binary");
-        binaryButton.setBounds(160, 140, 130, 35);
-        binaryButton.addMouseListener(this);
-        binaryButton.addActionListener(this);
-        binaryButton.setName("BINARY");
-        buttonStyle(binaryButton, ColorStyle.INACTIVE_BUTTON_FLAG);
-        f.add(binaryButton);
-
-        JButton quarterButton = new JButton("Quaternary");
-        quarterButton.setBounds(300, 140, 130, 35);
-        quarterButton.addMouseListener(this);
-        quarterButton.addActionListener(this);
-        quarterButton.setName("QUATERNARY");
-        buttonStyle(quarterButton, ColorStyle.INACTIVE_BUTTON_FLAG);
-        f.add(quarterButton);
-
-        JButton octaButton = new JButton("Octal");
-        octaButton.setBounds(440, 140, 130, 35);
-        octaButton.addMouseListener(this);
-        octaButton.addActionListener(this);
-        octaButton.setName("OCTAL");
-        buttonStyle(octaButton, ColorStyle.INACTIVE_BUTTON_FLAG);
-        f.add(octaButton);
-
-        JButton hexButton = new JButton("Hexadecimal");
-        hexButton.setBounds(580, 140, 140, 35);
-        hexButton.addMouseListener(this);
-        hexButton.addActionListener(this);
-        hexButton.setName("HEXADECIMAL");
-        buttonStyle(hexButton, ColorStyle.INACTIVE_BUTTON_FLAG);
-        f.add(hexButton);
     }
 
     //Styling Method
@@ -154,6 +112,7 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
     }
 
     private void buttonStyle(JButton jButton, int flag){
+        jButton.setFocusable(false);
         if(ColorStyle.INACTIVE_BUTTON_FLAG == flag){
             jButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, colorStyle.getOrange()));
             jButton.setFont(colorStyle.getPrimaryFont());
@@ -174,35 +133,27 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
         jLabel.setText(message);
     }
 
+    private void comboBoxStyle(JComboBox<String> jComboBox){
+        jComboBox.setBackground(colorStyle.getGreyDarkCool());
+        jComboBox.setFont(colorStyle.getSecondaryFont());
+        jComboBox.setForeground(colorStyle.getWhite());
+        jComboBox.setFocusable(false);
+        jComboBox.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, colorStyle.getOrange()));
+    }
+
     //OnClick Event
     @Override
     public void actionPerformed(ActionEvent evt) {
         try{
             if(evt.getSource() == cleanButton){
                 fromTextField.setText("");
-                fromUnitTextField.setText("");
                 toTextField.setText("");
-                toUnitTextField.setText("");
                 alertDialogStyle(alertDialog, "");
-                textFieldStyle(fromUnitTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
-                textFieldStyle(toUnitTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+                fromUnit.setSelectedIndex(0);
+                toUnit.setSelectedIndex(0);
             }
             else if(evt.getSource() == convertButton){
-                alertDialogStyle(alertDialog, "Solving...");
-            }
-            else{
-                JButton jButton = (JButton)evt.getSource();
-                if(fromUnitTextField.getText().isEmpty() || fromUnitTextField.getText().isBlank()){
-                    fromUnitTextField.setText(jButton.getName());
-                    textFieldStyle(fromUnitTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
-                }
-                else if(toUnitTextField.getText().isEmpty() || toUnitTextField.getText().isBlank()){
-                    toUnitTextField.setText(jButton.getName());
-                    textFieldStyle(toUnitTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
-                }
-                else{
-                    alertDialogStyle(alertDialog, "Clean the fields of units.");
-                }
+                alertDialogStyle(alertDialog, "Solving to base" + constantBase[toUnit.getSelectedIndex()] + "...");
             }
         }
         catch (Exception e){
