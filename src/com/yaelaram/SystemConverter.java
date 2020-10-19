@@ -11,7 +11,7 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
     private JComboBox<String> fromUnit, toUnit;
     private JLabel alertDialog;
     private final ColorStyle colorStyle = new ColorStyle();
-    private final int[] constantBase = {10, 2, 4, 8, 16};
+    private final int[] constValues = {10, 2, 4, 8, 16};
 
     public SystemConverter(){
         f = new JFrame();
@@ -153,7 +153,57 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
                 toUnit.setSelectedIndex(0);
             }
             else if(evt.getSource() == convertButton){
-                alertDialogStyle(alertDialog, "Solving to base" + constantBase[toUnit.getSelectedIndex()] + "...");
+                if(!fromTextField.getText().isBlank() || !fromTextField.getText().isEmpty()){
+                    alertDialogStyle(alertDialog, "");
+                    String fromUnitString = String.valueOf(fromUnit.getSelectedItem());
+                    String toUnitString = String.valueOf(toUnit.getSelectedItem());
+                    Converter baseConverter = new Converter();
+                    try{
+                        long number = Long.parseLong(fromTextField.getText());
+                        if(fromUnitString.equals(toUnitString)){
+                            toTextField.setText(String.valueOf(number));
+                        }
+                        else if(number == 0){
+                            toTextField.setText("0");
+                        }
+                        else if(number < 0){
+                            alertDialogStyle(alertDialog, "Only positive numbers.");
+                            toTextField.setText("0");
+                        }
+                        else{
+                            if(fromUnitString.equalsIgnoreCase("Decimal")){
+                                String result = baseConverter.fromDecimal(number, constValues[toUnit.getSelectedIndex()]);
+                                toTextField.setText(result);
+                            }
+                            else if(toUnitString.equalsIgnoreCase("Decimal")){
+                                long result = baseConverter.toDecimal(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()]);
+                                toTextField.setText(String.valueOf(result));
+                            }
+                            else{
+                                toTextField.setText(baseConverter.converterBase(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()], constValues[toUnit.getSelectedIndex()]));
+                            }
+                        }
+                    }
+                    catch(NumberFormatException error){
+                        if(fromUnitString.equalsIgnoreCase("Hexadecimal")){
+                            if(toUnitString.equalsIgnoreCase("Decimal")){
+                                long result = baseConverter.toDecimal(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()]);
+                                toTextField.setText(String.valueOf(result));
+                            }
+                            else{
+                                toTextField.setText(baseConverter.converterBase(fromTextField.getText(), 16, constValues[toUnit.getSelectedIndex()]));
+                            }
+                        }
+                        else{
+                            alertDialogStyle(alertDialog, "Please enter a int number. Max value: 9.223372e+18 or 2^63-1");
+                            System.out.println("System converter class converter button: " + error.getMessage());
+                            fromTextField.setText("");
+                        }
+                    }
+                }
+                else{
+                    alertDialogStyle(alertDialog, "Please enter a number at " + fromUnit.getSelectedItem() + " field.");
+                }
             }
         }
         catch (Exception e){

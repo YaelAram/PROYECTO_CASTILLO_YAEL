@@ -205,8 +205,8 @@ public class LogIn implements FocusListener, MouseListener, ActionListener {
             String userPasswordString = String.valueOf(userPasswordField.getPassword());
             if(!userNameString.isBlank() && !userNameString.isEmpty()){
                 if(!userPasswordString.isBlank() && !userPasswordString.isEmpty()){
-                    if(userNameString.equals("Manager")){
-                        if(userPasswordString.equals("manager")){
+                    if(userNameString.equalsIgnoreCase("Manager")){
+                        if(userPasswordString.equalsIgnoreCase("manager")){
                             f.dispose();
                             new Menu();
                         }

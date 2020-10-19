@@ -153,6 +153,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
         }
         else if(evt.getSource() == convertButton){
             if(!fromTextField.getText().isEmpty() || !fromTextField.getText().isBlank()){
+                alertDialogStyle(alertDialog, "");
                 try{
                     double fromValue = Double.parseDouble(fromTextField.getText());
                     String stringFrom = String.valueOf(fromUnit.getSelectedItem());
@@ -164,44 +165,11 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
                         toTextField.setText(fromTextField.getText());
                     }
                     else{
-                        if(stringFrom.equals("Bit") && stringTo.equals("Nibble")){
-                            toTextField.setText(String.valueOf(fromValue / 4.0));
-                        }
-                        else if(stringFrom.equals("Bit") && stringTo.equals("Byte")){
-                            toTextField.setText(String.valueOf(fromValue / 8.0));
-                        }
-                        else if(stringFrom.equals("Nibble") && stringTo.equals("Bit")){
-                            toTextField.setText(String.valueOf(fromValue * 4.0));
-                        }
-                        else if(stringFrom.equals("Nibble") && stringTo.equals("Byte")){
-                            toTextField.setText(String.valueOf(fromValue / 2.0));
-                        }
-                        else if(stringFrom.equals("Byte") && stringTo.equals("Bit")){
-                            toTextField.setText(String.valueOf(fromValue * 8.0));
-                        }
-                        else if(stringFrom.equals("Byte") && stringTo.equals("Nibble")){
-                            toTextField.setText(String.valueOf(fromValue * 2.0));
-                        }
-                        else{
-                            if(stringFrom.equals("Bit")){
-                                fromValue /= 8.0;
-                            }
-                            else if(stringFrom.equals("Nibble")){
-                                fromValue /= 2.0;
-                            }
-                            int superIndexFrom = constantValues[fromUnit.getSelectedIndex()];
-                            int superIndexTo = constantValues[toUnit.getSelectedIndex()];
-                            int superIndex = superIndexFrom - superIndexTo;
-                            if(stringTo.equals("Bit")){
-                                toTextField.setText(String.valueOf(fromValue * Math.pow(10, superIndex) * 8));
-                            }
-                            else if(stringTo.equals("Nibble")){
-                                toTextField.setText(String.valueOf(fromValue * Math.pow(10, superIndex) * 2));
-                            }
-                            else{
-                                toTextField.setText(String.valueOf(fromValue * Math.pow(10, superIndex)));
-                            }
-                        }
+                        int superIndexFrom = constantValues[fromUnit.getSelectedIndex()];
+                        int superIndexTo = constantValues[toUnit.getSelectedIndex()];
+                        Converter converter = new Converter();
+                        String result = converter.unitConverter(fromValue, stringFrom, stringTo, superIndexFrom, superIndexTo);
+                        toTextField.setText(result);
                     }
                 }
                 catch (NumberFormatException error){
