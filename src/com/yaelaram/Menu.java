@@ -54,6 +54,7 @@ public class Menu implements MouseListener, ActionListener {
 
     //Styling Method
     private void buttonStyle(JButton jButton, int flag){
+        jButton.setFocusable(false);
         if(ColorStyle.INACTIVE_BUTTON_FLAG == flag){
             jButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, colorStyle.getOrange()));
             jButton.setFont(colorStyle.getPrimaryFont());
