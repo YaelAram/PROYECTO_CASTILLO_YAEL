@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PROYECTO_CASTILLO_YAEL:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PROYECTO_CASTILLO_YAEL_jar</output-path>
+    <root id="archive" name="PROYECTO_CASTILLO_YAEL.jar">
+      <element id="module-output" name="PROYECTO_CASTILLO_YAEL" />
+    </root>
+  </artifact>
+</component>

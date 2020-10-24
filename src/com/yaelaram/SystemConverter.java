@@ -119,25 +119,53 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
                         else{
                             if(fromUnitString.equalsIgnoreCase("Decimal")){
                                 String result = baseConverter.fromDecimal(number, constValues[toUnit.getSelectedIndex()]);
-                                toTextField.setText(result);
+                                if(result.equalsIgnoreCase("ERROR")){
+                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                }
+                                else{
+                                    toTextField.setText(result);
+                                }
                             }
                             else if(toUnitString.equalsIgnoreCase("Decimal")){
                                 long result = baseConverter.toDecimal(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()]);
-                                toTextField.setText(String.valueOf(result));
+                                if(result != -1){
+                                    toTextField.setText(String.valueOf(result));
+                                }
+                                else{
+                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                }
                             }
                             else{
-                                toTextField.setText(baseConverter.converterBase(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()], constValues[toUnit.getSelectedIndex()]));
+                                String result = baseConverter.converterBase(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()], constValues[toUnit.getSelectedIndex()]);
+                                System.out.println(result);
+                                if(result.equalsIgnoreCase("ERROR")){
+                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                }
+                                else{
+                                    toTextField.setText(result);
+                                }
                             }
                         }
                     }
                     catch(NumberFormatException error){
                         if(fromUnitString.equalsIgnoreCase("Hexadecimal")){
                             if(toUnitString.equalsIgnoreCase("Decimal")){
-                                long result = baseConverter.toDecimal(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()]);
-                                toTextField.setText(String.valueOf(result));
+                                long result = baseConverter.toDecimal(fromTextField.getText().toUpperCase(), constValues[fromUnit.getSelectedIndex()]);
+                                if(result != -1){
+                                    toTextField.setText(String.valueOf(result));
+                                }
+                                else{
+                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                }
                             }
                             else{
-                                toTextField.setText(baseConverter.converterBase(fromTextField.getText(), 16, constValues[toUnit.getSelectedIndex()]));
+                                String result = baseConverter.converterBase(fromTextField.getText(), 16, constValues[toUnit.getSelectedIndex()]);
+                                if(result.equalsIgnoreCase("ERROR")){
+                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                }
+                                else{
+                                    toTextField.setText(result);
+                                }
                             }
                         }
                         else{
