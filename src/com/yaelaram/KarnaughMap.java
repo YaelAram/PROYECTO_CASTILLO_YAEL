@@ -13,6 +13,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
     private JTextField[] rowTruthTable;
     private JTextField[] outputTruthTable;
     private JTextField[][] karnaughMapLabel;
+    private final Converter converter = new Converter();
 
     public KarnaughMap(){
         f = new JFrame();
@@ -28,20 +29,20 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
 
     private void start(){
         JLabel title = new JLabel("System Converter");
-        title.setBounds(250, 10, 250, 30);
-        labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
+        title.setBounds(350, 10, 250, 30);
+        colorStyle.labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
         f.add(title);
 
         JLabel numVariableLabel = new JLabel("#Variables");
         numVariableLabel.setBounds(20, 40, 100, 30);
-        labelStyle(numVariableLabel, ColorStyle.SECONDARY_LABEL_FLAG);
+        colorStyle.labelStyle(numVariableLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(numVariableLabel);
 
         numVariable = new JTextField();
         numVariable.setBounds(20, 65, 60, 30);
         numVariable.addFocusListener(this);
         numVariable.addActionListener(this);
-        textFieldStyle(numVariable, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+        colorStyle.textFieldStyle(numVariable, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         f.add(numVariable);
 
         createTable = new JButton("Create Table");
@@ -49,7 +50,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         createTable.setFocusable(false);
         createTable.addMouseListener(this);
         createTable.addActionListener(this);
-        buttonStyle(createTable, ColorStyle.INACTIVE_BUTTON_FLAG);
+        colorStyle.buttonStyle(createTable, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(createTable);
 
         calculate = new JButton("Calculate");
@@ -58,7 +59,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         calculate.setEnabled(false);
         calculate.addMouseListener(this);
         calculate.addActionListener(this);
-        buttonStyle(calculate, ColorStyle.INACTIVE_BUTTON_FLAG);
+        colorStyle.buttonStyle(calculate, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(calculate);
 
         clean = new JButton("Clean");
@@ -66,171 +67,13 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         clean.setFocusable(false);
         clean.addMouseListener(this);
         clean.addActionListener(this);
-        buttonStyle(clean, ColorStyle.INACTIVE_BUTTON_FLAG);
+        colorStyle.buttonStyle(clean, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(clean);
 
         alertDialog = new JLabel();
         alertDialog.setBounds(20, 110, 900, 30);
-        alertDialogStyle(alertDialog, "");
+        colorStyle.alertDialogStyle(alertDialog, "");
         f.add(alertDialog);
-    }
-
-    //Styling Method
-    private void labelStyle(JLabel jLabel, int flag){
-        jLabel.setForeground(colorStyle.getWhite());
-        if(ColorStyle.PRIMARY_LABEL_FLAG == flag){
-            jLabel.setFont(colorStyle.getPrimaryFont());
-        }
-        else{
-            jLabel.setFont(colorStyle.getSecondaryFont());
-        }
-    }
-
-    private void textFieldStyle(JTextField jTextField, int flag){
-        jTextField.setFont(colorStyle.getSecondaryFont());
-        jTextField.setBackground(colorStyle.getGreyDarkCool());
-        if(ColorStyle.INACTIVE_TEXT_FIELD_FLAG == flag){
-            jTextField.setForeground(colorStyle.getGreyCool());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, colorStyle.getGreyCool()));
-        }
-        else{
-            jTextField.setForeground(colorStyle.getWhite());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, colorStyle.getOrange()));
-        }
-    }
-
-    private void buttonStyle(JButton jButton, int flag){
-        if(ColorStyle.INACTIVE_BUTTON_FLAG == flag){
-            jButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, colorStyle.getOrange()));
-            jButton.setFont(colorStyle.getPrimaryFont());
-            jButton.setForeground(colorStyle.getWhite());
-            jButton.setBackground(colorStyle.getGreyDarkCool());
-        }
-        else{
-            jButton.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, colorStyle.getOrange()));
-            jButton.setFont(colorStyle.getPrimaryFont());
-            jButton.setForeground(colorStyle.getWhite());
-            jButton.setBackground(colorStyle.getOrange());
-        }
-    }
-
-    private void alertDialogStyle(JLabel jLabel, String message){
-        jLabel.setFont(colorStyle.getSecondaryFont());
-        jLabel.setForeground(colorStyle.getWhite());
-        jLabel.setText(message);
-    }
-
-    //solveMap Method
-    private String solveMap(int numRow, int[] outputValues){
-        StringBuilder stringBuilder = new StringBuilder();
-        String divider = " + ";
-        for(int i = 0 ; i<numRow ; i++){
-            if(outputValues[i] == 1){
-                if(i != 0){
-                    stringBuilder.append(divider);
-                }
-                String values = rowTruthTable[i].getText();
-                for(int j = 0 ; j<values.length() ; j++){
-                    if(j == 0){
-                        if(values.charAt(j) == '1'){
-                            stringBuilder.append("A");
-                        }
-                        else{
-                            stringBuilder.append("\u0100");
-                        }
-                    }
-                    else if(j == 1){
-                        if(values.charAt(j) == '1'){
-                            stringBuilder.append("E");
-                        }
-                        else{
-                            stringBuilder.append("\u0112");
-                        }
-                    }
-                    else if(j == 2){
-                        if(values.charAt(j) == '1'){
-                            stringBuilder.append("O");
-                        }
-                        else{
-                            stringBuilder.append("\u014C");
-                        }
-                    }
-                    else{
-                        if(values.charAt(j) == '1'){
-                            stringBuilder.append("U");
-                        }
-                        else{
-                            stringBuilder.append("\u016A");
-                        }
-                    }
-                }
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    private int[][] createKarnaughMap(int numColumn, int numRow, int[] outputValues){
-        int[][] resultArray;
-        if(numColumn == 2){
-            resultArray = new int[numColumn][numColumn];
-            for(int i = 0 ; i<numRow ; i++){
-                if(outputValues[i] == 1){
-                    String values = rowTruthTable[i].getText();
-                    String aColumn = String.valueOf(values.charAt(0));
-                    String eRow = String.valueOf(values.charAt(1));
-                    resultArray[Integer.parseInt(eRow)][Integer.parseInt(aColumn)] = 1;
-                }
-            }
-        }
-        else if(numColumn == 3){
-            resultArray = new int[numColumn - 1][numColumn + 1];
-            Converter converter = new Converter();
-            for(int i = 0 ; i<numRow ; i++){
-                if(outputValues[i] == 1){
-                    String values = rowTruthTable[i].getText();
-                    String aColumn = String.valueOf(values.charAt(0));
-                    String eColumn = String.valueOf(values.charAt(1));
-                    String oRow = String.valueOf(values.charAt(2));
-                    long column = converter.toDecimal((aColumn + eColumn), 2);
-                    if(column == 3){
-                        column = 2;
-                    }
-                    else if(column == 2){
-                        column = 3;
-                    }
-                    resultArray[Integer.parseInt(oRow)][(int) column] = 1;
-                }
-            }
-        }
-        else{
-            resultArray = new int[numColumn + 1][numColumn + 1];
-            Converter converter = new Converter();
-            for(int i = 0 ; i<numRow ; i++){
-                if(outputValues[i] == 1){
-                    String values = rowTruthTable[i].getText();
-                    String aColumn = String.valueOf(values.charAt(0));
-                    String eColumn = String.valueOf(values.charAt(1));
-                    String oRow = String.valueOf(values.charAt(2));
-                    String uRow = String.valueOf(values.charAt(3));
-                    long column = converter.toDecimal((aColumn + eColumn), 2);
-                    long row = converter.toDecimal((oRow + uRow), 2);
-                    if(column == 3){
-                        column = 2;
-                    }
-                    else if(column == 2){
-                        column = 3;
-                    }
-                    if(row == 3){
-                        row = 2;
-                    }
-                    else if(row == 2){
-                        row = 3;
-                    }
-                    resultArray[(int)row][(int) column] = 1;
-                }
-            }
-        }
-        return resultArray;
     }
 
     //OnClick Event
@@ -245,16 +88,15 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                 if(!numVariable.getText().isEmpty() || !numVariable.getText().isBlank()){
                     try{
                         int numColumn = Integer.parseInt(numVariable.getText());
-                        alertDialogStyle(alertDialog, "");
+                        colorStyle.alertDialogStyle(alertDialog, "");
                         if(numColumn <= 1 || numColumn > 4){
-                            alertDialogStyle(alertDialog, "Please only numbers from 2 to 4");
+                            colorStyle.alertDialogStyle(alertDialog, "Please only numbers from 2 to 4");
                             calculate.setEnabled(false);
                         }
                         else{
                             int numRow = (int) Math.pow(2, numColumn);
                             rowTruthTable = new JTextField[numRow];
                             outputTruthTable = new JTextField[numRow];
-                            Converter converter = new Converter();
                             JLabel[] horizontalTitle, verticalTitle;
                             for(int i = 0 ; i<numRow ; i++){
                                 StringBuilder stringBuilder = new StringBuilder(converter.fromDecimal(i, 2));
@@ -263,14 +105,14 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                                 }
                                 rowTruthTable[i] = new JTextField(stringBuilder.toString());
                                 rowTruthTable[i].setBounds(20, (140 + (32 * i)), 70, 30);
-                                textFieldStyle(rowTruthTable[i], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                colorStyle.textFieldStyle(rowTruthTable[i], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                 rowTruthTable[i].setEditable(false);
                                 rowTruthTable[i].setFocusable(false);
                                 rowTruthTable[i].setHorizontalAlignment(SwingConstants.CENTER);
                                 f.add(rowTruthTable[i]);
                                 outputTruthTable[i] = new JTextField();
                                 outputTruthTable[i].setBounds(110, (140 + (32 * i)), 30, 30);
-                                textFieldStyle(outputTruthTable[i], ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+                                colorStyle.textFieldStyle(outputTruthTable[i], ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
                                 outputTruthTable[i].setHorizontalAlignment(SwingConstants.CENTER);
                                 outputTruthTable[i].addFocusListener(this);
                                 f.add(outputTruthTable[i]);
@@ -283,18 +125,18 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                                     for(int j = 0 ; j<2 ; j++){
                                         horizontalTitle[j] = new JLabel("A - " + j);
                                         horizontalTitle[j].setBounds((320 + (70 * j)), 190, 30, 30);
-                                        labelStyle(horizontalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.labelStyle(horizontalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(horizontalTitle[j]);
                                         verticalTitle[j] = new JLabel("E - " + j);
                                         verticalTitle[j].setBounds(260, (220 + (65 * j)), 30, 30);
-                                        labelStyle(verticalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.labelStyle(verticalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(verticalTitle[j]);
                                         karnaughMapLabel[i][j] = new JTextField();
                                         karnaughMapLabel[i][j].setBounds((320 + (70 * j)), (220 + (60 * i)), 30, 30);
                                         karnaughMapLabel[i][j].setFocusable(false);
                                         karnaughMapLabel[i][j].setEditable(false);
                                         karnaughMapLabel[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-                                        textFieldStyle(karnaughMapLabel[i][j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.textFieldStyle(karnaughMapLabel[i][j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(karnaughMapLabel[i][j]);
                                     }
                                 }
@@ -309,18 +151,18 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                                         horizontalTitle[j] = new JLabel(title[j]);
                                         horizontalTitle[j].setBounds((320 + (70 * j)), 190, 50, 30);
                                         horizontalTitle[j].setHorizontalAlignment(SwingConstants.CENTER);
-                                        labelStyle(horizontalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.labelStyle(horizontalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(horizontalTitle[j]);
                                         verticalTitle[i] = new JLabel("O - " + i);
                                         verticalTitle[i].setBounds(260, (225 + (60 * i)), 35, 30);
-                                        labelStyle(verticalTitle[i], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.labelStyle(verticalTitle[i], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(verticalTitle[i]);
                                         karnaughMapLabel[i][j] = new JTextField();
                                         karnaughMapLabel[i][j].setBounds((320 + (70 * j)), (220 + (60 * i)), 50, 30);
                                         karnaughMapLabel[i][j].setFocusable(false);
                                         karnaughMapLabel[i][j].setEditable(false);
                                         karnaughMapLabel[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-                                        textFieldStyle(karnaughMapLabel[i][j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.textFieldStyle(karnaughMapLabel[i][j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(karnaughMapLabel[i][j]);
                                     }
                                 }
@@ -336,18 +178,18 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                                         horizontalTitle[j] = new JLabel(titleHorizontal[j]);
                                         horizontalTitle[j].setBounds((320 + (70 * j)), 190, 50, 30);
                                         horizontalTitle[j].setHorizontalAlignment(SwingConstants.CENTER);
-                                        labelStyle(horizontalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.labelStyle(horizontalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(horizontalTitle[j]);
                                         verticalTitle[j] = new JLabel(titleVertical[j]);
                                         verticalTitle[j].setBounds(250, (225 + (60 * j)), 50, 30);
-                                        labelStyle(verticalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.labelStyle(verticalTitle[j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(verticalTitle[j]);
                                         karnaughMapLabel[i][j] = new JTextField();
                                         karnaughMapLabel[i][j].setBounds((320 + (70 * j)), (220 + (60 * i)), 50, 30);
                                         karnaughMapLabel[i][j].setFocusable(false);
                                         karnaughMapLabel[i][j].setEditable(false);
                                         karnaughMapLabel[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-                                        textFieldStyle(karnaughMapLabel[i][j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+                                        colorStyle.textFieldStyle(karnaughMapLabel[i][j], ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
                                         f.add(karnaughMapLabel[i][j]);
                                     }
                                 }
@@ -359,11 +201,11 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                     }
                     catch (NumberFormatException error){
                         System.out.println("Karnaugh class calculate button: " + error.getMessage());
-                        alertDialogStyle(alertDialog, "Please only int numbers (2 - 4).");
+                        colorStyle.alertDialogStyle(alertDialog, "Please only int numbers (2 - 4).");
                     }
                 }
                 else{
-                    alertDialogStyle(alertDialog, "Please enter a number.");
+                    colorStyle.alertDialogStyle(alertDialog, "Please enter a number.");
                 }
             }
             if(evt.getSource() == calculate){
@@ -371,6 +213,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                 int numColumn = Integer.parseInt(numVariable.getText());
                 int numRow = (int) Math.pow(2, numColumn);
                 int[] outputValues = new int[numRow];
+                String[] outputValuesString = new String[numRow];
                 for(int i = 0 ; i<numRow ; i++){
                     if(outputTruthTable[i].getText().isBlank() || outputTruthTable[i].getText().isEmpty()){
                         flag++;
@@ -388,9 +231,12 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                         }
                     }
                 }
+                for(int i = 0 ; i<numRow ; i++){
+                    outputValuesString[i] = rowTruthTable[i].getText();
+                }
                 if(flag == 0){
-                    alertDialogStyle(alertDialog, solveMap(numRow, outputValues));
-                    int[][] karnaughMap = createKarnaughMap(numColumn, numRow, outputValues);
+                    colorStyle.alertDialogStyle(alertDialog, converter.solveMap(numRow, outputValues, outputValuesString));
+                    int[][] karnaughMap = converter.createKarnaughMap(numColumn, numRow, outputValues, outputValuesString);
                     if(numColumn == 2){
                         for(int i = 0 ; i<2 ; i++){
                             for(int j = 0 ; j<2 ; j++){
@@ -414,7 +260,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                     }
                 }
                 else{
-                    alertDialogStyle(alertDialog, "Please enter all fields and only numbers from 0 to 1.");
+                    colorStyle.alertDialogStyle(alertDialog, "Please enter all fields and only numbers from 0 to 1.");
                 }
             }
         }
@@ -429,7 +275,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
     public void focusGained(FocusEvent evt) {
         try{
             JTextField jTextField = (JTextField)evt.getSource();
-            textFieldStyle(jTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+            colorStyle.textFieldStyle(jTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
         }
         catch (Exception e){
             System.out.println("Karnaugh Map Class Focus Gained: " + e.getMessage());
@@ -441,7 +287,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
     public void focusLost(FocusEvent evt) {
         try{
             JTextField jTextField = (JTextField)evt.getSource();
-            textFieldStyle(jTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+            colorStyle.textFieldStyle(jTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         }
         catch (Exception e){
             System.out.println("Karnaugh Map Class Focus Lost: " + e.getMessage());
@@ -469,7 +315,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
     public void mouseEntered(MouseEvent evt) {
         try{
             JButton jButton = (JButton)evt.getSource();
-            buttonStyle(jButton, ColorStyle.ACTIVE_BUTTON_FLAG);
+            colorStyle.buttonStyle(jButton, ColorStyle.ACTIVE_BUTTON_FLAG);
         }
         catch (Exception e){
             System.out.println("Karnaugh Map Class Mouse Enter: " + e.getMessage());
@@ -481,7 +327,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
     public void mouseExited(MouseEvent evt) {
         try{
             JButton jButton = (JButton)evt.getSource();
-            buttonStyle(jButton, ColorStyle.INACTIVE_BUTTON_FLAG);
+            colorStyle.buttonStyle(jButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         }
         catch (Exception e){
             System.out.println("Karnaugh Map Class Mouse Exited: " + e.getMessage());

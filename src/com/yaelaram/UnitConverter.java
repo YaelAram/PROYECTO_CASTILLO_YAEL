@@ -28,117 +28,63 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     private void start(){
         JLabel title = new JLabel("Unit Converter");
         title.setBounds(315, 10, 250, 30);
-        labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
+        colorStyle.labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
         f.add(title);
 
         String[] units = {"Bit", "Nibble", "Byte", "Kilobyte", "Megabyte", "Gigabyte", "Terabyte", "Petabyte", "Exabyte", "Zettabyte", "Yottabyte"};
 
         fromUnit = new JComboBox<>(units);
         fromUnit.setBounds(70, 65, 130, 30);
-        comboBoxStyle(fromUnit);
+        colorStyle.comboBoxStyle(fromUnit);
         f.add(fromUnit);
 
         toUnit = new JComboBox<>(units);
         toUnit.setBounds(250, 65, 130, 30);
-        comboBoxStyle(toUnit);
+        colorStyle.comboBoxStyle(toUnit);
         f.add(toUnit);
 
         convertButton = new JButton("Convert");
         convertButton.setBounds(410, 60, 150, 35);
         convertButton.addMouseListener(this);
         convertButton.addActionListener(this);
-        buttonStyle(convertButton, ColorStyle.INACTIVE_BUTTON_FLAG);
+        colorStyle.buttonStyle(convertButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(convertButton);
 
         cleanButton = new JButton("Clean");
         cleanButton.setBounds(580, 60, 150, 35);
         cleanButton.addActionListener(this);
         cleanButton.addMouseListener(this);
-        buttonStyle(cleanButton, ColorStyle.INACTIVE_BUTTON_FLAG);
+        colorStyle.buttonStyle(cleanButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(cleanButton);
 
         JLabel fromLabel = new JLabel("From:");
         fromLabel.setBounds(20, 105, 40, 30);
-        labelStyle(fromLabel, ColorStyle.SECONDARY_LABEL_FLAG);
+        colorStyle.labelStyle(fromLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(fromLabel);
 
         JLabel toLabel = new JLabel("To:");
         toLabel.setBounds(390, 105, 40, 30);
-        labelStyle(toLabel, ColorStyle.SECONDARY_LABEL_FLAG);
+        colorStyle.labelStyle(toLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(toLabel);
 
         fromTextField = new JTextField();
         fromTextField.setBounds(20, 130, 330, 30);
         fromTextField.addFocusListener(this);
         fromTextField.addActionListener(this);
-        textFieldStyle(fromTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+        colorStyle.textFieldStyle(fromTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         f.add(fromTextField);
         
         toTextField = new JTextField();
         toTextField.setBounds(390, 130, 330, 30);
         toTextField.addFocusListener(this);
         toTextField.addActionListener(this);
-        textFieldStyle(toTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+        colorStyle.textFieldStyle(toTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         f.add(toTextField);
 
         alertDialog = new JLabel();
         alertDialog.setBounds(20, 175, 600, 30);
-        alertDialogStyle(alertDialog, "");
+        colorStyle.alertDialogStyle(alertDialog, "");
         f.add(alertDialog);
-    }
-
-    //Styling Method
-    private void labelStyle(JLabel jLabel, int flag){
-        jLabel.setForeground(colorStyle.getWhite());
-        if(ColorStyle.PRIMARY_LABEL_FLAG == flag){
-            jLabel.setFont(colorStyle.getPrimaryFont());
-        }
-        else{
-            jLabel.setFont(colorStyle.getSecondaryFont());
-        }
-    }
-
-    private void textFieldStyle(JTextField jTextField, int flag){
-        jTextField.setFont(colorStyle.getSecondaryFont());
-        jTextField.setBackground(colorStyle.getGreyDarkCool());
-        if(ColorStyle.INACTIVE_TEXT_FIELD_FLAG == flag){
-            jTextField.setForeground(colorStyle.getGreyCool());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, colorStyle.getGreyCool()));
-        }
-        else{
-            jTextField.setForeground(colorStyle.getWhite());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, colorStyle.getOrange()));
-        }
-    }
-
-    private void buttonStyle(JButton jButton, int flag){
-        jButton.setFocusable(false);
-        if(ColorStyle.INACTIVE_BUTTON_FLAG == flag){
-            jButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, colorStyle.getOrange()));
-            jButton.setFont(colorStyle.getPrimaryFont());
-            jButton.setForeground(colorStyle.getWhite());
-            jButton.setBackground(colorStyle.getGreyDarkCool());
-        }
-        else{
-            jButton.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, colorStyle.getOrange()));
-            jButton.setFont(colorStyle.getPrimaryFont());
-            jButton.setForeground(colorStyle.getWhite());
-            jButton.setBackground(colorStyle.getOrange());
-        }
-    }
-
-    private void alertDialogStyle(JLabel jLabel, String message){
-        jLabel.setFont(colorStyle.getSecondaryFont());
-        jLabel.setForeground(colorStyle.getWhite());
-        jLabel.setText(message);
-    }
-
-    private void comboBoxStyle(JComboBox<String> jComboBox){
-        jComboBox.setBackground(colorStyle.getGreyDarkCool());
-        jComboBox.setFont(colorStyle.getSecondaryFont());
-        jComboBox.setForeground(colorStyle.getWhite());
-        jComboBox.setFocusable(false);
-        jComboBox.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, colorStyle.getOrange()));
     }
 
     //OnClick Event
@@ -147,13 +93,13 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
         if(evt.getSource() == cleanButton){
             fromTextField.setText("");
             toTextField.setText("");
-            alertDialogStyle(alertDialog, "");
+            colorStyle.alertDialogStyle(alertDialog, "");
             fromUnit.setSelectedIndex(0);
             toUnit.setSelectedIndex(0);
         }
         else if(evt.getSource() == convertButton){
             if(!fromTextField.getText().isEmpty() || !fromTextField.getText().isBlank()){
-                alertDialogStyle(alertDialog, "");
+                colorStyle.alertDialogStyle(alertDialog, "");
                 try{
                     double fromValue = Double.parseDouble(fromTextField.getText());
                     String stringFrom = String.valueOf(fromUnit.getSelectedItem());
@@ -173,13 +119,13 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
                     }
                 }
                 catch (NumberFormatException error){
-                    alertDialogStyle(alertDialog, "Please introduce a number.");
+                    colorStyle.alertDialogStyle(alertDialog, "Please introduce a number.");
                     fromTextField.setText("");
                     System.out.println("Unit Converter class converter button: " + error.getMessage());
                 }
             }
             else{
-                alertDialogStyle(alertDialog, "Please enter a value at " + fromUnit.getSelectedItem() + " field.");
+                colorStyle.alertDialogStyle(alertDialog, "Please enter a value at " + fromUnit.getSelectedItem() + " field.");
             }
         }
     }
@@ -189,7 +135,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     public void focusGained(FocusEvent evt) {
         try{
             JTextField jTextField = (JTextField)evt.getSource();
-            textFieldStyle(jTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
+            colorStyle.textFieldStyle(jTextField, ColorStyle.ACTIVE_TEXT_FIELD_FLAG);
         }
         catch (Exception e){
             System.out.println("UnitConverter Class Focus Gained: " + e.getMessage());
@@ -201,7 +147,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     public void focusLost(FocusEvent evt) {
         try{
             JTextField jTextField = (JTextField)evt.getSource();
-            textFieldStyle(jTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
+            colorStyle.textFieldStyle(jTextField, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         }
         catch (Exception e){
             System.out.println("UnitConverter Class Focus Lost: " + e.getMessage());
@@ -229,7 +175,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     public void mouseEntered(MouseEvent evt) {
         try{
             JButton jButton = (JButton)evt.getSource();
-            buttonStyle(jButton, ColorStyle.ACTIVE_BUTTON_FLAG);
+            colorStyle.buttonStyle(jButton, ColorStyle.ACTIVE_BUTTON_FLAG);
         }
         catch (Exception e){
             System.out.println("UnitConverter Class Mouse Entered: " + e.getMessage());
@@ -241,7 +187,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     public void mouseExited(MouseEvent evt) {
         try{
             JButton jButton = (JButton)evt.getSource();
-            buttonStyle(jButton, ColorStyle.INACTIVE_BUTTON_FLAG);
+            colorStyle.buttonStyle(jButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         }
         catch (Exception e){
             System.out.println("UnitConverter Class Mouse Exited: " + e.getMessage());
