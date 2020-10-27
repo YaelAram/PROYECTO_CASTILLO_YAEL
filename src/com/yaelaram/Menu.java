@@ -16,7 +16,7 @@ public class Menu implements MouseListener, ActionListener {
         f.setBounds(100, 10, 340, 320);
         f.setLayout(null);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setTitle("Menu");
+        f.setTitle("Menu de Opciones");
         f.setLocationRelativeTo(null);
         f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
@@ -24,27 +24,27 @@ public class Menu implements MouseListener, ActionListener {
     }
 
     private void start(){
-        JLabel title = new JLabel("Please select an option");
-        title.setBounds(50, 10, 250, 30);
+        JLabel title = new JLabel("Selecciona una opción.");
+        title.setBounds(40, 10, 250, 30);
         title.setFont(colorStyle.getPrimaryFont());
         f.add(title);
 
-        convertScreen = new JButton("Unit Converter");
-        convertScreen.setBounds(35, 80, 250, 45);
+        convertScreen = new JButton("Convertir Unidades Digitales");
+        convertScreen.setBounds(14, 80, 300, 45);
         convertScreen.addMouseListener(this);
         convertScreen.addActionListener(this);
         colorStyle.buttonStyle(convertScreen, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(convertScreen);
 
-        convertNumberScreen = new JButton("System Converter");
-        convertNumberScreen.setBounds(35, 150, 250, 45);
+        convertNumberScreen = new JButton("Convertir Base");
+        convertNumberScreen.setBounds(14, 150, 300, 45);
         convertNumberScreen.addMouseListener(this);
         convertNumberScreen.addActionListener(this);
         colorStyle.buttonStyle(convertNumberScreen, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(convertNumberScreen);
 
-        karnaughMapScreen = new JButton("Karnaugh Map");
-        karnaughMapScreen.setBounds(35, 220, 250, 45);
+        karnaughMapScreen = new JButton("Mapa de Karnaugh");
+        karnaughMapScreen.setBounds(14, 220, 300, 45);
         karnaughMapScreen.addMouseListener(this);
         karnaughMapScreen.addActionListener(this);
         colorStyle.buttonStyle(karnaughMapScreen, ColorStyle.INACTIVE_BUTTON_FLAG);

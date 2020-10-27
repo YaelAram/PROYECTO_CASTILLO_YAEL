@@ -20,7 +20,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         f.setBounds(180, 10, 920, 720);
         f.setLayout(null);
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        f.setTitle("Karnaugh Map");
+        f.setTitle("Mapas de Karnaugh");
         f.setLocationRelativeTo(null);
         f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
@@ -28,8 +28,8 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
     }
 
     private void start(){
-        JLabel title = new JLabel("System Converter");
-        title.setBounds(350, 10, 250, 30);
+        JLabel title = new JLabel("Mapas de Karnaugh");
+        title.setBounds(360, 10, 250, 30);
         colorStyle.labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
         f.add(title);
 
@@ -45,7 +45,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         colorStyle.textFieldStyle(numVariable, ColorStyle.INACTIVE_TEXT_FIELD_FLAG);
         f.add(numVariable);
 
-        createTable = new JButton("Create Table");
+        createTable = new JButton("Crear Tabla");
         createTable.setBounds(190, 60, 150, 40);
         createTable.setFocusable(false);
         createTable.addMouseListener(this);
@@ -53,7 +53,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         colorStyle.buttonStyle(createTable, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(createTable);
 
-        calculate = new JButton("Calculate");
+        calculate = new JButton("Calcular");
         calculate.setBounds(440, 60, 150, 40);
         calculate.setFocusable(false);
         calculate.setEnabled(false);
@@ -62,7 +62,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         colorStyle.buttonStyle(calculate, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(calculate);
 
-        clean = new JButton("Clean");
+        clean = new JButton("Limpiar");
         clean.setBounds(690, 60, 150, 40);
         clean.setFocusable(false);
         clean.addMouseListener(this);
@@ -90,7 +90,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                         int numColumn = Integer.parseInt(numVariable.getText());
                         colorStyle.alertDialogStyle(alertDialog, "");
                         if(numColumn <= 1 || numColumn > 4){
-                            colorStyle.alertDialogStyle(alertDialog, "Please only numbers from 2 to 4");
+                            colorStyle.alertDialogStyle(alertDialog, "Por favor solo numeros enteros entre dos y cuatro.");
                             calculate.setEnabled(false);
                         }
                         else{
@@ -201,11 +201,11 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                     }
                     catch (NumberFormatException error){
                         System.out.println("Karnaugh class calculate button: " + error.getMessage());
-                        colorStyle.alertDialogStyle(alertDialog, "Please only int numbers (2 - 4).");
+                        colorStyle.alertDialogStyle(alertDialog, "Por favor solo numeros enteros entre dos y cuatro.");
                     }
                 }
                 else{
-                    colorStyle.alertDialogStyle(alertDialog, "Please enter a number.");
+                    colorStyle.alertDialogStyle(alertDialog, "Por favor ingresa solo numeros.");
                 }
             }
             if(evt.getSource() == calculate){
@@ -260,7 +260,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
                     }
                 }
                 else{
-                    colorStyle.alertDialogStyle(alertDialog, "Please enter all fields and only numbers from 0 to 1.");
+                    colorStyle.alertDialogStyle(alertDialog, "Por favor ingresa como valor de salida solo 1 ó 0.");
                 }
             }
         }

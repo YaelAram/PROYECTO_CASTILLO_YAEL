@@ -18,7 +18,7 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
         f.setBounds(180, 10, 765, 260);
         f.setLayout(null);
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        f.setTitle("System Converter");
+        f.setTitle("Convertir Base");
         f.setLocationRelativeTo(null);
         f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
@@ -26,12 +26,12 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
     }
 
     private void start(){
-        JLabel title = new JLabel("System Converter");
-        title.setBounds(250, 10, 250, 30);
+        JLabel title = new JLabel("Convertir Base");
+        title.setBounds(300, 10, 250, 30);
         colorStyle.labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
         f.add(title);
 
-        String[] units = {"Decimal", "Binary", "Quaternary", "Octal", "Hexadecimal"};
+        String[] units = {"Decimal", "Binario", "Cuaternario", "Octal", "Hexadecimal"};
 
         fromUnit = new JComboBox<>(units);
         fromUnit.setBounds(50, 65, 130, 30);
@@ -43,26 +43,26 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
         colorStyle.comboBoxStyle(toUnit);
         f.add(toUnit);
 
-        convertButton = new JButton("Convert");
+        convertButton = new JButton("Convertir");
         convertButton.setBounds(380, 60, 150, 35);
         convertButton.addMouseListener(this);
         convertButton.addActionListener(this);
         colorStyle.buttonStyle(convertButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(convertButton);
 
-        cleanButton = new JButton("Clean");
+        cleanButton = new JButton("Limpiar");
         cleanButton.setBounds(550, 60, 150, 35);
         cleanButton.addActionListener(this);
         cleanButton.addMouseListener(this);
         colorStyle.buttonStyle(cleanButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(cleanButton);
 
-        JLabel fromLabel = new JLabel("From:");
+        JLabel fromLabel = new JLabel("De:");
         fromLabel.setBounds(20, 105, 40, 30);
         colorStyle.labelStyle(fromLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(fromLabel);
 
-        JLabel toLabel = new JLabel("To:");
+        JLabel toLabel = new JLabel("A:");
         toLabel.setBounds(390, 105, 40, 30);
         colorStyle.labelStyle(toLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(toLabel);
@@ -113,14 +113,14 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
                             toTextField.setText("0");
                         }
                         else if(number < 0){
-                            colorStyle.alertDialogStyle(alertDialog, "Only positive numbers.");
+                            colorStyle.alertDialogStyle(alertDialog, "Solo numeros enteros positivos.");
                             toTextField.setText("0");
                         }
                         else{
                             if(fromUnitString.equalsIgnoreCase("Decimal")){
                                 String result = baseConverter.fromDecimal(number, constValues[toUnit.getSelectedIndex()]);
                                 if(result.equalsIgnoreCase("ERROR")){
-                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                    colorStyle.alertDialogStyle(alertDialog, "Por favor revisa los datos.");
                                 }
                                 else{
                                     toTextField.setText(result);
@@ -132,14 +132,13 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
                                     toTextField.setText(String.valueOf(result));
                                 }
                                 else{
-                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                    colorStyle.alertDialogStyle(alertDialog, "Por favor revisa los datos.");
                                 }
                             }
                             else{
                                 String result = baseConverter.converterBase(fromTextField.getText(), constValues[fromUnit.getSelectedIndex()], constValues[toUnit.getSelectedIndex()]);
-                                System.out.println(result);
                                 if(result.equalsIgnoreCase("ERROR")){
-                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                    colorStyle.alertDialogStyle(alertDialog, "Por favor revisa los datos.");
                                 }
                                 else{
                                     toTextField.setText(result);
@@ -155,13 +154,13 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
                                     toTextField.setText(String.valueOf(result));
                                 }
                                 else{
-                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                    colorStyle.alertDialogStyle(alertDialog, "Por favor revisa los datos.");
                                 }
                             }
                             else{
-                                String result = baseConverter.converterBase(fromTextField.getText(), 16, constValues[toUnit.getSelectedIndex()]);
+                                String result = baseConverter.converterBase(fromTextField.getText().toUpperCase(), 16, constValues[toUnit.getSelectedIndex()]);
                                 if(result.equalsIgnoreCase("ERROR")){
-                                    colorStyle.alertDialogStyle(alertDialog, "Please check the value.");
+                                    colorStyle.alertDialogStyle(alertDialog, "Por favor revisa los datos.");
                                 }
                                 else{
                                     toTextField.setText(result);

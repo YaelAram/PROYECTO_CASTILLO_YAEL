@@ -18,7 +18,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
         f.setBounds(180, 10, 765, 260);
         f.setLayout(null);
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        f.setTitle("Unit Converter");
+        f.setTitle("Convertir Unidades Digitales");
         f.setLocationRelativeTo(null);
         f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
@@ -26,8 +26,8 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     }
 
     private void start(){
-        JLabel title = new JLabel("Unit Converter");
-        title.setBounds(315, 10, 250, 30);
+        JLabel title = new JLabel("Convertir Unidades Digitales");
+        title.setBounds(215, 10, 350, 30);
         colorStyle.labelStyle(title, ColorStyle.PRIMARY_LABEL_FLAG);
         f.add(title);
 
@@ -43,26 +43,26 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
         colorStyle.comboBoxStyle(toUnit);
         f.add(toUnit);
 
-        convertButton = new JButton("Convert");
+        convertButton = new JButton("Convertir");
         convertButton.setBounds(410, 60, 150, 35);
         convertButton.addMouseListener(this);
         convertButton.addActionListener(this);
         colorStyle.buttonStyle(convertButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(convertButton);
 
-        cleanButton = new JButton("Clean");
+        cleanButton = new JButton("Limpiar");
         cleanButton.setBounds(580, 60, 150, 35);
         cleanButton.addActionListener(this);
         cleanButton.addMouseListener(this);
         colorStyle.buttonStyle(cleanButton, ColorStyle.INACTIVE_BUTTON_FLAG);
         f.add(cleanButton);
 
-        JLabel fromLabel = new JLabel("From:");
+        JLabel fromLabel = new JLabel("De:");
         fromLabel.setBounds(20, 105, 40, 30);
         colorStyle.labelStyle(fromLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(fromLabel);
 
-        JLabel toLabel = new JLabel("To:");
+        JLabel toLabel = new JLabel("A:");
         toLabel.setBounds(390, 105, 40, 30);
         colorStyle.labelStyle(toLabel, ColorStyle.SECONDARY_LABEL_FLAG);
         f.add(toLabel);
@@ -90,43 +90,52 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
     //OnClick Event
     @Override
     public void actionPerformed(ActionEvent evt) {
-        if(evt.getSource() == cleanButton){
-            fromTextField.setText("");
-            toTextField.setText("");
-            colorStyle.alertDialogStyle(alertDialog, "");
-            fromUnit.setSelectedIndex(0);
-            toUnit.setSelectedIndex(0);
-        }
-        else if(evt.getSource() == convertButton){
-            if(!fromTextField.getText().isEmpty() || !fromTextField.getText().isBlank()){
+        try{
+            if(evt.getSource() == cleanButton){
+                fromTextField.setText("");
+                toTextField.setText("");
                 colorStyle.alertDialogStyle(alertDialog, "");
-                try{
-                    double fromValue = Double.parseDouble(fromTextField.getText());
-                    String stringFrom = String.valueOf(fromUnit.getSelectedItem());
-                    String stringTo = String.valueOf(toUnit.getSelectedItem());
-                    if(fromValue == 0.0){
-                        toTextField.setText("0");
+                fromUnit.setSelectedIndex(0);
+                toUnit.setSelectedIndex(0);
+            }
+            else if(evt.getSource() == convertButton){
+                if(!fromTextField.getText().isEmpty() || !fromTextField.getText().isBlank()){
+                    colorStyle.alertDialogStyle(alertDialog, "");
+                    try{
+                        double fromValue = Double.parseDouble(fromTextField.getText());
+                        String stringFrom = String.valueOf(fromUnit.getSelectedItem());
+                        String stringTo = String.valueOf(toUnit.getSelectedItem());
+                        if(fromValue == 0.0){
+                            toTextField.setText("0");
+                        }
+                        else if(fromValue < 0){
+                            colorStyle.alertDialogStyle(alertDialog, "Por favor introduce solo numeros positivos.");
+                        }
+                        else if(stringFrom.equals(stringTo)){
+                            toTextField.setText(fromTextField.getText());
+                        }
+                        else{
+                            int superIndexFrom = constantValues[fromUnit.getSelectedIndex()];
+                            int superIndexTo = constantValues[toUnit.getSelectedIndex()];
+                            Converter converter = new Converter();
+                            String result = converter.unitConverter(fromValue, stringFrom, stringTo, superIndexFrom, superIndexTo);
+                            toTextField.setText(result);
+                        }
                     }
-                    else if(stringFrom.equals(stringTo)){
-                        toTextField.setText(fromTextField.getText());
-                    }
-                    else{
-                        int superIndexFrom = constantValues[fromUnit.getSelectedIndex()];
-                        int superIndexTo = constantValues[toUnit.getSelectedIndex()];
-                        Converter converter = new Converter();
-                        String result = converter.unitConverter(fromValue, stringFrom, stringTo, superIndexFrom, superIndexTo);
-                        toTextField.setText(result);
+                    catch (NumberFormatException error){
+                        colorStyle.alertDialogStyle(alertDialog, "Por favor introduce solo numeros positivos.");
+                        fromTextField.setText("");
+                        System.out.println("Unit Converter class converter button: " + error.getMessage());
                     }
                 }
-                catch (NumberFormatException error){
-                    colorStyle.alertDialogStyle(alertDialog, "Please introduce a number.");
-                    fromTextField.setText("");
-                    System.out.println("Unit Converter class converter button: " + error.getMessage());
+                else{
+                    colorStyle.alertDialogStyle(alertDialog, "Por favor introduce un valor.");
                 }
             }
-            else{
-                colorStyle.alertDialogStyle(alertDialog, "Please enter a value at " + fromUnit.getSelectedItem() + " field.");
-            }
+        }
+        catch (Exception e){
+            System.out.println("Unit Converter Class, Action Performed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
