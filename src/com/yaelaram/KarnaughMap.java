@@ -22,7 +22,7 @@ public class KarnaughMap implements MouseListener, FocusListener, ActionListener
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.setTitle("Karnaugh Map");
         f.setLocationRelativeTo(null);
-        f.getContentPane().setBackground(colorStyle.getGreyDarkCool());
+        f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
         f.setVisible(true);
     }

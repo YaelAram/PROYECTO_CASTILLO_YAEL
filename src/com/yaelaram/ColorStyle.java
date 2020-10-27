@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ColorStyle {
-    private final Color greyCool = new Color(130, 130, 130);
-    private final Color greyDarkCool = new Color(0, 0, 0);
-    private final Color white = new Color(255, 255, 255);
-    private final Color orange = new Color(221, 44, 0);
+    private final Color greyLight = new Color(230, 230, 230);
+    private final Color grey = new Color(212, 212, 212);
+    private final Color greyDark = new Color(55, 58, 64);
+    private final Color black = new Color(0, 0, 0);
     private final Font primaryFont = new Font("Roboto", Font.BOLD, 22);
     private final Font secondaryFont = new Font("Roboto", Font.BOLD, 14);
     public final static int PRIMARY_LABEL_FLAG = 1;
@@ -17,20 +17,20 @@ public class ColorStyle {
     public static final int ACTIVE_BUTTON_FLAG = 5;
     public static final int INACTIVE_BUTTON_FLAG = 6;
 
-    public Color getOrange() {
-        return orange;
+    public Color getGreyLight() {
+        return greyLight;
     }
 
-    public Color getGreyCool() {
-        return greyCool;
+    public Color getGrey() {
+        return grey;
     }
 
-    public Color getGreyDarkCool() {
-        return greyDarkCool;
+    public Color getBlack() {
+        return black;
     }
 
-    public Color getWhite() {
-        return white;
+    public Color getGreyDark() {
+        return greyDark;
     }
 
     public Font getPrimaryFont() {
@@ -43,7 +43,7 @@ public class ColorStyle {
 
     //Styling Methods
     public void labelStyle(JLabel jLabel, int flag){
-        jLabel.setForeground(getWhite());
+        jLabel.setForeground(getBlack());
         if(ColorStyle.PRIMARY_LABEL_FLAG == flag){
             jLabel.setFont(getPrimaryFont());
         }
@@ -54,55 +54,56 @@ public class ColorStyle {
 
     public void textFieldStyle(JTextField jTextField, int flag){
         jTextField.setFont(getSecondaryFont());
-        jTextField.setBackground(getGreyDarkCool());
+        jTextField.setForeground(getBlack());
         if(ColorStyle.INACTIVE_TEXT_FIELD_FLAG == flag){
-            jTextField.setForeground(getGreyCool());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, getGreyCool()));
+            jTextField.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+            jTextField.setBackground(getGrey());
         }
         else{
-            jTextField.setForeground(getWhite());
-            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, getOrange()));
+            jTextField.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, getGreyDark()));
+            jTextField.setBackground(getGreyLight());
         }
     }
 
     public void passwordFieldStyle(JPasswordField jPasswordField, int flag){
         jPasswordField.setFont(getSecondaryFont());
-        jPasswordField.setBackground(getGreyDarkCool());
+        jPasswordField.setForeground(getBlack());
         if(ColorStyle.INACTIVE_TEXT_FIELD_FLAG == flag){
-            jPasswordField.setForeground(getGreyCool());
-            jPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, getGreyCool()));
+            jPasswordField.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+            jPasswordField.setBackground(getGrey());
         }
         else{
-            jPasswordField.setForeground(getWhite());
-            jPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, getOrange()));
+            jPasswordField.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, getGreyDark()));
+            jPasswordField.setBackground(getGreyLight());
         }
     }
 
     public void buttonStyle(JButton jButton, int flag){
         jButton.setFocusable(false);
         jButton.setFont(getPrimaryFont());
-        jButton.setForeground(getWhite());
         if(ColorStyle.INACTIVE_BUTTON_FLAG == flag){
-            jButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, getOrange()));
-            jButton.setBackground(getGreyDarkCool());
+            jButton.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, getGreyDark()));
+            jButton.setBackground(getGreyLight());
+            jButton.setForeground(getGreyDark());
         }
         else{
-            jButton.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, getOrange()));
-            jButton.setBackground(getOrange());
+            jButton.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, getGreyDark()));
+            jButton.setBackground(getGreyDark());
+            jButton.setForeground(getGreyLight());
         }
     }
 
     public void alertDialogStyle(JLabel jLabel, String message){
         jLabel.setFont(getSecondaryFont());
-        jLabel.setForeground(getWhite());
+        jLabel.setForeground(getBlack());
         jLabel.setText(message);
     }
 
     public void comboBoxStyle(JComboBox<String> jComboBox){
-        jComboBox.setBackground(getGreyDarkCool());
+        jComboBox.setBackground(getGreyLight());
         jComboBox.setFont(getSecondaryFont());
-        jComboBox.setForeground(getWhite());
+        jComboBox.setForeground(getBlack());
         jComboBox.setFocusable(false);
-        jComboBox.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, getOrange()));
+        jComboBox.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, getGreyDark()));
     }
 }

@@ -18,7 +18,7 @@ public class Menu implements MouseListener, ActionListener {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setTitle("Menu");
         f.setLocationRelativeTo(null);
-        f.getContentPane().setBackground(colorStyle.getGreyDarkCool());
+        f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
         f.setVisible(true);
     }
@@ -26,7 +26,6 @@ public class Menu implements MouseListener, ActionListener {
     private void start(){
         JLabel title = new JLabel("Please select an option");
         title.setBounds(50, 10, 250, 30);
-        title.setForeground(colorStyle.getWhite());
         title.setFont(colorStyle.getPrimaryFont());
         f.add(title);
 

@@ -20,7 +20,7 @@ public class SystemConverter implements MouseListener, FocusListener, ActionList
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.setTitle("System Converter");
         f.setLocationRelativeTo(null);
-        f.getContentPane().setBackground(colorStyle.getGreyDarkCool());
+        f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
         f.setVisible(true);
     }

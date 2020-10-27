@@ -18,7 +18,7 @@ public class LogIn implements FocusListener, MouseListener, ActionListener {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setTitle("Log In");
         f.setLocationRelativeTo(null);
-        f.getContentPane().setBackground(colorStyle.getGreyDarkCool());
+        f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
         f.setVisible(true);
     }

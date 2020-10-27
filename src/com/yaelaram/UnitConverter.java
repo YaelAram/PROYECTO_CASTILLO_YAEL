@@ -20,7 +20,7 @@ public class UnitConverter implements MouseListener, FocusListener, ActionListen
         f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         f.setTitle("Unit Converter");
         f.setLocationRelativeTo(null);
-        f.getContentPane().setBackground(colorStyle.getGreyDarkCool());
+        f.getContentPane().setBackground(colorStyle.getGreyLight());
         start();
         f.setVisible(true);
     }
