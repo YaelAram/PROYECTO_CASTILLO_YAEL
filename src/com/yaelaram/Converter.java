@@ -69,10 +69,10 @@ public class Converter {
             fromValue /= 2.0;
         }
         int superIndex = superIndexFrom - superIndexTo;
-        if(stringTo.equals("Bit")){
+        if(stringTo.equalsIgnoreCase("Bit")){
             return String.valueOf(fromValue * Math.pow(10, superIndex) * 8);
         }
-        else if(stringTo.equals("Nibble")){
+        else if(stringTo.equalsIgnoreCase("Nibble")){
             return String.valueOf(fromValue * Math.pow(10, superIndex) * 2);
         }
         else{
@@ -88,7 +88,7 @@ public class Converter {
         String[] negativeCharacter = {"\u0100", "\u0112", "\u014C", "\u016A"};
         for(int i = 0 ; i<numRow ; i++){
             if(outputValues[i] == 1){
-                if(i != 0){
+                if(stringBuilder.length() > 0){
                     stringBuilder.append(divider);
                 }
                 String values = outputValuesString[i];
@@ -133,7 +133,7 @@ public class Converter {
             }
         }
         else{
-            resultArray = new int[numColumn + 1][numColumn + 1];
+            resultArray = new int[numColumn][numColumn];
             Converter converter = new Converter();
             for(int i = 0 ; i<numRow ; i++){
                 if(outputValues[i] == 1){
